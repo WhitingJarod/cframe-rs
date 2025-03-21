@@ -1,6 +1,6 @@
 use crate::{Float, Vec3};
 
-#[derive(Clone, PartialEq)]
+#[derive(Clone, Copy, PartialEq)]
 pub struct CFrame {
     m11: Float,
     m12: Float,
@@ -82,9 +82,9 @@ impl CFrame {
     }
 
     pub fn from_pos_facing(from: Vec3, to: Vec3) -> Self {
-        let mut z = (to - &from).normalize();
-        let mut x = Vec3::up().cross(&z).normalize();
-        let mut y = z.crossed(&x);
+        let mut z = (to - from).unit();
+        let mut x = Vec3::up().cross(z).unit();
+        let mut y = z.cross(x);
         if x.magnitude() == 0.0 {
             if z.y < 0.0 {
                 x = Vec3::forward();
@@ -172,12 +172,12 @@ impl CFrame {
         }
     }
 
-    fn vec_axis_angle(n: &Vec3, v: &Vec3, t: Float) -> Vec3 {
-        let n = n.normalized();
-        let v = v.normalized();
-        return v * t.cos() + n * v.dot(&n) * (1.0 - t.cos()) + n.cross(&v) * t.sin();
+    fn vec_axis_angle(n: Vec3, v: Vec3, t: Float) -> Vec3 {
+        let n = n.unit();
+        let v = v.unit();
+        return v * t.cos() + n * v.dot(n) * (1.0 - t.cos()) + n.cross(v) * t.sin();
     }
 
-    pub fn from_axis_angle(Vec3 axis, Float theta) {
-    }
+    // pub fn from_axis_angle(Vec3 axis, Float theta) {
+    // }
 }
