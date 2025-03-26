@@ -1,4 +1,4 @@
-use std::ops::{Add, AddAssign};
+use std::ops::{Add, AddAssign, Mul, MulAssign};
 
 use crate::{Float, Vec3};
 
@@ -249,5 +249,31 @@ impl AddAssign<Vec3> for CFrame {
         self.m14 += rhs.x;
         self.m24 += rhs.y;
         self.m34 += rhs.z;
+    }
+}
+
+impl Mul for CFrame {
+    type Output = CFrame;
+
+    fn mul(self, rhs: CFrame) -> CFrame {
+        CFrame::from_components(
+            self.m11 * rhs.m11 + self.m12 * rhs.m21 + self.m13 * rhs.m31,
+            self.m11 * rhs.m12 + self.m12 * rhs.m22 + self.m13 * rhs.m32,
+            self.m11 * rhs.m13 + self.m12 * rhs.m23 + self.m13 * rhs.m33,
+            self.m11 * rhs.m14 + self.m12 * rhs.m24 + self.m13 * rhs.m34 + self.m14,
+            self.m21 * rhs.m11 + self.m22 * rhs.m21 + self.m23 * rhs.m31,
+            self.m21 * rhs.m12 + self.m22 * rhs.m22 + self.m23 * rhs.m32,
+            self.m21 * rhs.m13 + self.m22 * rhs.m23 + self.m23 * rhs.m33,
+            self.m21 * rhs.m14 + self.m22 * rhs.m24 + self.m23 * rhs.m34 + self.m24,
+            self.m31 * rhs.m11 + self.m32 * rhs.m21 + self.m33 * rhs.m31,
+            self.m31 * rhs.m12 + self.m32 * rhs.m22 + self.m33 * rhs.m32,
+            self.m31 * rhs.m13 + self.m32 * rhs.m23 + self.m33 * rhs.m33,
+            self.m31 * rhs.m14 + self.m32 * rhs.m24 + self.m33 * rhs.m34 + self.m34,
+        )
+    }
+}
+impl MulAssign for CFrame {
+    fn mul_assign(&mut self, rhs: CFrame) {
+        *self = *self * rhs;
     }
 }
