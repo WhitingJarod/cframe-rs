@@ -100,8 +100,8 @@ impl CFrame {
     }
 
     pub fn from_pos_facing(from: Vec3, to: Vec3) -> Self {
-        let mut z = (to - from).unit();
-        let mut x = Vec3::up().cross(z).unit();
+        let mut z = (from - to).unit();
+        let mut x = Vec3::up().cross(z);
         let mut y = z.cross(x);
         if x.magnitude() == 0.0 {
             if z.y < 0.0 {
@@ -114,32 +114,32 @@ impl CFrame {
                 z = Vec3::up();
             }
         }
-        let m11 = x.x;
-        let m12 = y.x;
-        let m13 = z.x;
-        let m14 = from.x;
-        let m21 = x.y;
-        let m22 = y.y;
-        let m23 = z.y;
-        let m24 = from.y;
-        let m31 = x.z;
-        let m32 = y.z;
-        let m33 = z.z;
-        let m34 = from.z;
 
+        let c00 = x.x;
+        let c10 = y.x;
+        let c20 = z.x;
+        let c30 = from.x;
+        let c01 = x.y;
+        let c11 = y.y;
+        let c21 = z.y;
+        let c31 = from.y;
+        let c02 = x.z;
+        let c12 = y.z;
+        let c22 = z.z;
+        let c32 = from.z;
         Self {
-            c00: m11,
-            c10: m12,
-            c20: m13,
-            c30: m14,
-            c01: m21,
-            c11: m22,
-            c21: m23,
-            c31: m24,
-            c02: m31,
-            c12: m32,
-            c22: m33,
-            c32: m34,
+            c00,
+            c10,
+            c20,
+            c30,
+            c01,
+            c11,
+            c21,
+            c31,
+            c02,
+            c12,
+            c22,
+            c32,
         }
     }
 
