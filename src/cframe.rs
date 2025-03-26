@@ -1,3 +1,5 @@
+use std::ops::{Add, AddAssign};
+
 use crate::{Float, Vec3};
 
 #[derive(Clone, Copy, PartialEq)]
@@ -196,4 +198,32 @@ impl CFrame {
 
     // pub fn from_axis_angle(Vec3 axis, Float theta) {
     // }
+}
+
+impl Add<Vec3> for CFrame {
+    type Output = CFrame;
+
+    fn add(self, rhs: Vec3) -> CFrame {
+        CFrame::from_components(
+            self.m11,
+            self.m12,
+            self.m13,
+            self.m14 + rhs.x,
+            self.m21,
+            self.m22,
+            self.m23,
+            self.m24 + rhs.y,
+            self.m31,
+            self.m32,
+            self.m33,
+            self.m34 + rhs.z,
+        )
+    }
+}
+impl AddAssign<Vec3> for CFrame {
+    fn add_assign(&mut self, rhs: Vec3) {
+        self.m14 += rhs.x;
+        self.m24 += rhs.y;
+        self.m34 += rhs.z;
+    }
 }
