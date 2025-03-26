@@ -190,12 +190,6 @@ impl CFrame {
         }
     }
 
-    fn vec_axis_angle(n: Vec3, v: Vec3, t: Float) -> Vec3 {
-        let n = n.unit();
-        let v = v.unit();
-        return v * t.cos() + n * v.dot(n) * (1.0 - t.cos()) + n.cross(v) * t.sin();
-    }
-
     pub fn from_axis_angle(axis: Vec3, theta: Float) -> Self {
         let r: Vec3 = Self::vec_axis_angle(axis, Vec3::right(), theta);
         let u: Vec3 = Self::vec_axis_angle(axis, Vec3::up(), theta);
@@ -216,7 +210,7 @@ impl CFrame {
         };
     }
 
-    fn vector_axis_angle(mut n: Vec3, mut v: Vec3, t: Float) -> Vec3 {
+    fn vec_axis_angle(mut n: Vec3, mut v: Vec3, t: Float) -> Vec3 {
         n = n.unit();
         v = v.unit();
         let u = t.cos();
@@ -224,10 +218,6 @@ impl CFrame {
     }
 
     pub fn perspective(fov: Float, aspect: Float, near: Float, far: Float) -> [Float; 16] {
-        //  0  4  8 12
-        //  1  5  9 13
-        //  2  6 10 14
-        //  3  7 11 15
         let f = 1.0 / (fov / 2.0).tan();
         let c00 = f / aspect;
         let c11 = f;
@@ -237,6 +227,13 @@ impl CFrame {
         return [
             c00, 0.0, 0.0, 0.0, 0.0, c11, 0.0, 0.0, 0.0, 0.0, c22, -1.0, 0.0, 0.0, c32, 0.0,
         ];
+    }
+
+    pub fn to_array(&self) -> [Float; 16] {
+        [
+            self.c00, self.c10, self.c20, self.c30, self.c01, self.c11, self.c21, self.c31,
+            self.c02, self.c12, self.c22, self.c32, 0.0, 0.0, 0.0, 1.0,
+        ]
     }
 }
 
