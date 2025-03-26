@@ -235,6 +235,58 @@ impl CFrame {
             self.c02, self.c12, self.c22, self.c32, 0.0, 0.0, 0.0, 1.0,
         ]
     }
+
+    pub fn determinant(&self) -> Float {
+        self.c00 * (self.c11 * self.c22 - self.c12 * self.c21)
+            - self.c01 * (self.c10 * self.c22 - self.c12 * self.c20)
+            + self.c02 * (self.c10 * self.c21 - self.c11 * self.c20)
+    }
+
+    pub fn inverse(&self) -> CFrame {
+        let det = self.determinant();
+        if det == 0.0 {
+            return CFrame::identity();
+        }
+        let inv_det = 1.0 / det;
+        let m11 = (self.c11 * self.c22 - self.c12 * self.c21) * inv_det;
+        let m12 = (self.c02 * self.c21 - self.c01 * self.c22) * inv_det;
+        let m13 = (self.c01 * self.c12 - self.c02 * self.c11) * inv_det;
+        let m14 = (self.c01 * (self.c12 * self.c32 - self.c22 * self.c31)
+            + self.c02 * (self.c21 * self.c31 - self.c11 * self.c32)
+            + self.c11 * self.c22
+            - self.c12 * self.c21)
+            * inv_det;
+        let m21 = (self.c12 * self.c20 - self.c10 * self.c22) * inv_det;
+        let m22 = (self.c00 * self.c22 - self.c02 * self.c20) * inv_det;
+        let m23 = (self.c02 * self.c10 - self.c00 * self.c12) * inv_det;
+        let m24 = (self.c02 * (self.c10 * self.c32 - self.c20 * self.c31)
+            + self.c00 * (self.c21 * self.c31 - self.c11 * self.c32)
+            + self.c10 * self.c22
+            - self.c12 * self.c20)
+            * inv_det;
+        let m31 = (self.c10 * self.c21 - self.c11 * self.c20) * inv_det;
+        let m32 = (self.c01 * self.c20 - self.c00 * self.c21) * inv_det;
+        let m33 = (self.c00 * self.c11 - self.c01 * self.c10) * inv_det;
+        let m34 = (self.c00 * (self.c11 * self.c32 - self.c21 * self.c31)
+            + self.c01 * (self.c20 * self.c31 - self.c10 * self.c32)
+            + self.c10 * self.c21
+            - self.c11 * self.c20)
+            * inv_det;
+        return CFrame {
+            c00: m11,
+            c10: m12,
+            c20: m13,
+            c30: m14,
+            c01: m21,
+            c11: m22,
+            c21: m23,
+            c31: m24,
+            c02: m31,
+            c12: m32,
+            c22: m33,
+            c32: m34,
+        };
+    }
 }
 
 impl Add<Vec3> for CFrame {
