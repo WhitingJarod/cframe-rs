@@ -178,6 +178,22 @@ impl CFrame {
         return v * t.cos() + n * v.dot(n) * (1.0 - t.cos()) + n.cross(v) * t.sin();
     }
 
+    pub fn x(&self) -> Vec3 {
+        Vec3::new(self.m11, self.m21, self.m31)
+    }
+
+    pub fn y(&self) -> Vec3 {
+        Vec3::new(self.m12, self.m22, self.m32)
+    }
+
+    pub fn z(&self) -> Vec3 {
+        Vec3::new(self.m13, self.m23, self.m33)
+    }
+
+    pub fn p(&self) -> Vec3 {
+        Vec3::new(self.m14, self.m24, self.m34)
+    }
+
     // pub fn from_axis_angle(Vec3 axis, Float theta) {
     // }
 }
