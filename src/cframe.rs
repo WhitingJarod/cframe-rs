@@ -4,51 +4,51 @@ use crate::{Float, Vec3};
 
 #[derive(Clone, Copy, PartialEq)]
 pub struct CFrame {
-    m11: Float,
-    m12: Float,
-    m13: Float,
-    m14: Float,
-    m21: Float,
-    m22: Float,
-    m23: Float,
-    m24: Float,
-    m31: Float,
-    m32: Float,
-    m33: Float,
-    m34: Float,
+    c00: Float,
+    c10: Float,
+    c20: Float,
+    c30: Float,
+    c01: Float,
+    c11: Float,
+    c21: Float,
+    c31: Float,
+    c02: Float,
+    c12: Float,
+    c22: Float,
+    c32: Float,
 }
 
 impl CFrame {
     pub fn x(&self) -> Vec3 {
-        Vec3::new(self.m11, self.m21, self.m31)
+        Vec3::new(self.c00, self.c01, self.c02)
     }
 
     pub fn y(&self) -> Vec3 {
-        Vec3::new(self.m12, self.m22, self.m32)
+        Vec3::new(self.c10, self.c11, self.c12)
     }
 
     pub fn z(&self) -> Vec3 {
-        Vec3::new(self.m13, self.m23, self.m33)
+        Vec3::new(self.c20, self.c21, self.c22)
     }
 
     pub fn p(&self) -> Vec3 {
-        Vec3::new(self.m14, self.m24, self.m34)
+        Vec3::new(self.c30, self.c31, self.c32)
     }
 
     pub fn identity() -> Self {
         Self {
-            m11: 1.0,
-            m12: 0.0,
-            m13: 0.0,
-            m14: 0.0,
-            m21: 0.0,
-            m22: 1.0,
-            m23: 0.0,
-            m24: 0.0,
-            m31: 0.0,
-            m32: 0.0,
-            m33: 1.0,
-            m34: 0.0,
+            c00: 1.0,
+            c10: 0.0,
+            c20: 0.0,
+            c30: 0.0,
+            c01: 0.0,
+            c11: 1.0,
+            c21: 0.0,
+            c31: 0.0,
+            c02: 0.0,
+            c12: 0.0,
+            c22: 1.0,
+            c32: 0.0,
         }
     }
 
@@ -67,35 +67,35 @@ impl CFrame {
         m34: Float,
     ) -> Self {
         Self {
-            m11,
-            m12,
-            m13,
-            m14,
-            m21,
-            m22,
-            m23,
-            m24,
-            m31,
-            m32,
-            m33,
-            m34,
+            c00: m11,
+            c10: m12,
+            c20: m13,
+            c30: m14,
+            c01: m21,
+            c11: m22,
+            c21: m23,
+            c31: m24,
+            c02: m31,
+            c12: m32,
+            c22: m33,
+            c32: m34,
         }
     }
 
     pub fn from_columns(x: Vec3, y: Vec3, z: Vec3, p: Vec3) -> Self {
         Self {
-            m11: x.x,
-            m12: y.x,
-            m13: z.x,
-            m14: p.x,
-            m21: x.y,
-            m22: y.y,
-            m23: z.y,
-            m24: p.y,
-            m31: x.z,
-            m32: y.z,
-            m33: z.z,
-            m34: p.z,
+            c00: x.x,
+            c10: y.x,
+            c20: z.x,
+            c30: p.x,
+            c01: x.y,
+            c11: y.y,
+            c21: z.y,
+            c31: p.y,
+            c02: x.z,
+            c12: y.z,
+            c22: z.z,
+            c32: p.z,
         }
     }
 
@@ -128,35 +128,35 @@ impl CFrame {
         let m34 = from.z;
 
         Self {
-            m11,
-            m12,
-            m13,
-            m14,
-            m21,
-            m22,
-            m23,
-            m24,
-            m31,
-            m32,
-            m33,
-            m34,
+            c00: m11,
+            c10: m12,
+            c20: m13,
+            c30: m14,
+            c01: m21,
+            c11: m22,
+            c21: m23,
+            c31: m24,
+            c02: m31,
+            c12: m32,
+            c22: m33,
+            c32: m34,
         }
     }
 
     pub fn from_pos(pos: Vec3) -> Self {
         Self {
-            m11: 1.0,
-            m12: 0.0,
-            m13: 0.0,
-            m14: pos.x,
-            m21: 0.0,
-            m22: 1.0,
-            m23: 0.0,
-            m24: pos.y,
-            m31: 0.0,
-            m32: 0.0,
-            m33: 1.0,
-            m34: pos.z,
+            c00: 1.0,
+            c10: 0.0,
+            c20: 0.0,
+            c30: pos.x,
+            c01: 0.0,
+            c11: 1.0,
+            c21: 0.0,
+            c31: pos.y,
+            c02: 0.0,
+            c12: 0.0,
+            c22: 1.0,
+            c32: pos.z,
         }
     }
 
@@ -175,18 +175,18 @@ impl CFrame {
         let m33 = 1.0 - 2.0 * (i * i - j * j);
 
         Self {
-            m11,
-            m12,
-            m13,
-            m14,
-            m21,
-            m22,
-            m23,
-            m24,
-            m31,
-            m32,
-            m33,
-            m34,
+            c00: m11,
+            c10: m12,
+            c20: m13,
+            c30: m14,
+            c01: m21,
+            c11: m22,
+            c21: m23,
+            c31: m24,
+            c02: m31,
+            c12: m32,
+            c22: m33,
+            c32: m34,
         }
     }
 
@@ -201,18 +201,18 @@ impl CFrame {
         let u: Vec3 = Self::vec_axis_angle(axis, Vec3::up(), theta);
         let b: Vec3 = Self::vec_axis_angle(axis, Vec3::forward(), theta);
         return Self {
-            m11: r.x,
-            m12: u.x,
-            m13: b.x,
-            m14: 0.0,
-            m21: r.y,
-            m22: u.y,
-            m23: b.y,
-            m24: 0.0,
-            m31: r.z,
-            m32: u.z,
-            m33: b.z,
-            m34: 0.0,
+            c00: r.x,
+            c10: u.x,
+            c20: b.x,
+            c30: 0.0,
+            c01: r.y,
+            c11: u.y,
+            c21: b.y,
+            c31: 0.0,
+            c02: r.z,
+            c12: u.z,
+            c22: b.z,
+            c32: 0.0,
         };
     }
 
@@ -222,6 +222,22 @@ impl CFrame {
         let u = t.cos();
         return v * u + n * v.dot(n) * (1.0 - u) + n.cross(v) * t.sin();
     }
+
+    pub fn perspective(fov: Float, aspect: Float, near: Float, far: Float) -> [Float; 16] {
+        //  0  4  8 12
+        //  1  5  9 13
+        //  2  6 10 14
+        //  3  7 11 15
+        let f = 1.0 / (fov / 2.0).tan();
+        let c00 = f / aspect;
+        let c11 = f;
+        let nf = near - far;
+        let c22 = (far + near) / nf;
+        let c32 = 2.0 * far * near / nf;
+        return [
+            c00, 0.0, 0.0, 0.0, 0.0, c11, 0.0, 0.0, 0.0, 0.0, c22, -1.0, 0.0, 0.0, c32, 0.0,
+        ];
+    }
 }
 
 impl Add<Vec3> for CFrame {
@@ -229,26 +245,26 @@ impl Add<Vec3> for CFrame {
 
     fn add(self, rhs: Vec3) -> CFrame {
         CFrame::from_components(
-            self.m11,
-            self.m12,
-            self.m13,
-            self.m14 + rhs.x,
-            self.m21,
-            self.m22,
-            self.m23,
-            self.m24 + rhs.y,
-            self.m31,
-            self.m32,
-            self.m33,
-            self.m34 + rhs.z,
+            self.c00,
+            self.c10,
+            self.c20,
+            self.c30 + rhs.x,
+            self.c01,
+            self.c11,
+            self.c21,
+            self.c31 + rhs.y,
+            self.c02,
+            self.c12,
+            self.c22,
+            self.c32 + rhs.z,
         )
     }
 }
 impl AddAssign<Vec3> for CFrame {
     fn add_assign(&mut self, rhs: Vec3) {
-        self.m14 += rhs.x;
-        self.m24 += rhs.y;
-        self.m34 += rhs.z;
+        self.c30 += rhs.x;
+        self.c31 += rhs.y;
+        self.c32 += rhs.z;
     }
 }
 
@@ -257,18 +273,18 @@ impl Mul for CFrame {
 
     fn mul(self, rhs: CFrame) -> CFrame {
         CFrame::from_components(
-            self.m11 * rhs.m11 + self.m12 * rhs.m21 + self.m13 * rhs.m31,
-            self.m11 * rhs.m12 + self.m12 * rhs.m22 + self.m13 * rhs.m32,
-            self.m11 * rhs.m13 + self.m12 * rhs.m23 + self.m13 * rhs.m33,
-            self.m11 * rhs.m14 + self.m12 * rhs.m24 + self.m13 * rhs.m34 + self.m14,
-            self.m21 * rhs.m11 + self.m22 * rhs.m21 + self.m23 * rhs.m31,
-            self.m21 * rhs.m12 + self.m22 * rhs.m22 + self.m23 * rhs.m32,
-            self.m21 * rhs.m13 + self.m22 * rhs.m23 + self.m23 * rhs.m33,
-            self.m21 * rhs.m14 + self.m22 * rhs.m24 + self.m23 * rhs.m34 + self.m24,
-            self.m31 * rhs.m11 + self.m32 * rhs.m21 + self.m33 * rhs.m31,
-            self.m31 * rhs.m12 + self.m32 * rhs.m22 + self.m33 * rhs.m32,
-            self.m31 * rhs.m13 + self.m32 * rhs.m23 + self.m33 * rhs.m33,
-            self.m31 * rhs.m14 + self.m32 * rhs.m24 + self.m33 * rhs.m34 + self.m34,
+            self.c00 * rhs.c00 + self.c10 * rhs.c01 + self.c20 * rhs.c02,
+            self.c00 * rhs.c10 + self.c10 * rhs.c11 + self.c20 * rhs.c12,
+            self.c00 * rhs.c20 + self.c10 * rhs.c21 + self.c20 * rhs.c22,
+            self.c00 * rhs.c30 + self.c10 * rhs.c31 + self.c20 * rhs.c32 + self.c30,
+            self.c01 * rhs.c00 + self.c11 * rhs.c01 + self.c21 * rhs.c02,
+            self.c01 * rhs.c10 + self.c11 * rhs.c11 + self.c21 * rhs.c12,
+            self.c01 * rhs.c20 + self.c11 * rhs.c21 + self.c21 * rhs.c22,
+            self.c01 * rhs.c30 + self.c11 * rhs.c31 + self.c21 * rhs.c32 + self.c31,
+            self.c02 * rhs.c00 + self.c12 * rhs.c01 + self.c22 * rhs.c02,
+            self.c02 * rhs.c10 + self.c12 * rhs.c11 + self.c22 * rhs.c12,
+            self.c02 * rhs.c20 + self.c12 * rhs.c21 + self.c22 * rhs.c22,
+            self.c02 * rhs.c30 + self.c12 * rhs.c31 + self.c22 * rhs.c32 + self.c32,
         )
     }
 }
