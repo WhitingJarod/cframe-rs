@@ -1,3 +1,4 @@
+use core::fmt;
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 
 use crate::Float;
@@ -216,5 +217,11 @@ impl Neg for Vec3 {
             y: -self.y,
             z: -self.z,
         }
+    }
+}
+
+impl fmt::Debug for Vec3 {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "({}, {}, {})", self.x, self.y, self.z)
     }
 }
