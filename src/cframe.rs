@@ -231,8 +231,8 @@ impl CFrame {
 
     pub fn to_array(&self) -> [Float; 16] {
         [
-            self.c00, self.c10, self.c20, self.c30, self.c01, self.c11, self.c21, self.c31,
-            self.c02, self.c12, self.c22, self.c32, 0.0, 0.0, 0.0, 1.0,
+            self.c00, self.c01, self.c02, 0.0, self.c10, self.c11, self.c12, 0.0, self.c20,
+            self.c21, self.c22, 0.0, self.c30, self.c31, self.c32, 1.0,
         ]
     }
 
