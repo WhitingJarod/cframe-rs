@@ -19,6 +19,22 @@ pub struct CFrame {
 }
 
 impl CFrame {
+    pub fn x(&self) -> Vec3 {
+        Vec3::new(self.m11, self.m21, self.m31)
+    }
+
+    pub fn y(&self) -> Vec3 {
+        Vec3::new(self.m12, self.m22, self.m32)
+    }
+
+    pub fn z(&self) -> Vec3 {
+        Vec3::new(self.m13, self.m23, self.m33)
+    }
+
+    pub fn p(&self) -> Vec3 {
+        Vec3::new(self.m14, self.m24, self.m34)
+    }
+
     pub fn identity() -> Self {
         Self {
             m11: 1.0,
@@ -180,24 +196,32 @@ impl CFrame {
         return v * t.cos() + n * v.dot(n) * (1.0 - t.cos()) + n.cross(v) * t.sin();
     }
 
-    pub fn x(&self) -> Vec3 {
-        Vec3::new(self.m11, self.m21, self.m31)
+    pub fn from_axis_angle(axis: Vec3, theta: Float) -> Self {
+        let r: Vec3 = Self::vec_axis_angle(axis, Vec3::right(), theta);
+        let u: Vec3 = Self::vec_axis_angle(axis, Vec3::up(), theta);
+        let b: Vec3 = Self::vec_axis_angle(axis, Vec3::forward(), theta);
+        return Self {
+            m11: r.x,
+            m12: u.x,
+            m13: b.x,
+            m14: 0.0,
+            m21: r.y,
+            m22: u.y,
+            m23: b.y,
+            m24: 0.0,
+            m31: r.z,
+            m32: u.z,
+            m33: b.z,
+            m34: 0.0,
+        };
     }
 
-    pub fn y(&self) -> Vec3 {
-        Vec3::new(self.m12, self.m22, self.m32)
+    fn vector_axis_angle(mut n: Vec3, mut v: Vec3, t: Float) -> Vec3 {
+        n = n.unit();
+        v = v.unit();
+        let u = t.cos();
+        return v * u + n * v.dot(n) * (1.0 - u) + n.cross(v) * t.sin();
     }
-
-    pub fn z(&self) -> Vec3 {
-        Vec3::new(self.m13, self.m23, self.m33)
-    }
-
-    pub fn p(&self) -> Vec3 {
-        Vec3::new(self.m14, self.m24, self.m34)
-    }
-
-    // pub fn from_axis_angle(Vec3 axis, Float theta) {
-    // }
 }
 
 impl Add<Vec3> for CFrame {
